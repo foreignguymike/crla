@@ -1,0 +1,69 @@
+package com.distraction.crla.utils;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+public class Utils {
+
+    public static void drawRotatedArm(SpriteBatch sb, TextureRegion image, float x, float y, float deg) {
+        float w = image.getRegionWidth();
+        float h = image.getRegionHeight();
+
+        sb.draw(
+            image,
+            x - h / 2,
+            y - h / 2,
+            h / 2,
+            h / 2,
+            w, h,
+            1, 1,
+            deg
+        );
+    }
+
+    public static void drawCentered(SpriteBatch sb, TextureRegion image, float x, float y) {
+        float w = image.getRegionWidth();
+        float h = image.getRegionHeight();
+        sb.draw(image, x - w / 2, y - h / 2, w, h);
+    }
+
+    public static void drawCentered(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h) {
+        sb.draw(image, x - w / 2, y - h / 2, w, h);
+    }
+
+    public static void drawCentered(SpriteBatch sb, TextureRegion image, float x, float y, boolean flipped) {
+        float w = image.getRegionWidth();
+        float h = image.getRegionHeight();
+        float nx = flipped ? x + w / 2 : x - w / 2;
+        float nw = flipped ? -w : w;
+        sb.draw(image, nx, y - h / 2, nw, h);
+    }
+
+    public static void drawCenteredRotated(SpriteBatch sb, TextureRegion image, float x, float y, float deg) {
+        float w = image.getRegionWidth();
+        float h = image.getRegionHeight();
+
+        sb.draw(
+            image,
+            x - w / 2,
+            y - h / 2,
+            w / 2,
+            h / 2,
+            w, h,
+            1, 1,
+            deg
+        );
+    }
+
+    public static void drawCenteredRotated(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h, float deg) {
+        sb.draw(
+            image,
+            x - w / 2, y - h / 2,
+            w / 2, h / 2,
+            w, h,
+            1, 1,
+            deg
+        );
+    }
+
+}
