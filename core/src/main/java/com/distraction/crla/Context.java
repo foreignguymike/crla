@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.crla.audio.AudioHandler;
-import com.distraction.crla.screens.PlayScreen;
+import com.distraction.crla.screens.TrialScreen;
 import com.distraction.crla.screens.ScreenManager;
 
 public class Context {
@@ -37,7 +37,7 @@ public class Context {
         audio = new AudioHandler();
 
         sb = new SpriteBatch();
-        sm = new ScreenManager(new PlayScreen(this));
+        sm = new ScreenManager(new TrialScreen(this));
     }
 
     public TextureRegion getImage(String key) {

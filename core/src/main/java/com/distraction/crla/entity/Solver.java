@@ -119,9 +119,9 @@ public class Solver {
 
             if (node.type == NodeType.POSITIVE) charge++;
             else if (node.type == NodeType.NEGATIVE) charge--;
-            else if (node.type == NodeType.ALPHA && resonance == 0
-                || node.type == NodeType.BETA && resonance == 1
-                || node.type == NodeType.GAMMA && resonance == 2) resonance++;
+            else if (node.type == NodeType.RES1 && resonance == 0
+                || node.type == NodeType.RES2 && resonance == 1
+                || node.type == NodeType.RES3 && resonance == 2) resonance++;
             charge = MathUtils.clamp(charge, -3, 3);
         }
         previousOverlap = currentOverlap;

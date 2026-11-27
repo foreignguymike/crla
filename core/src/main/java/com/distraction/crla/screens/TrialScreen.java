@@ -13,13 +13,11 @@ import com.distraction.crla.entity.NodeType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayScreen extends Screen {
-
-    private final Color BG_COLOR = new Color(0.1f, 0.15f, 0.3f, 1f);
+public class TrialScreen extends Screen {
 
     private final LMA lma;
 
-    public PlayScreen(Context context) {
+    public TrialScreen(Context context) {
         super(context);
 
         ignoreInput = true;
@@ -32,7 +30,9 @@ public class PlayScreen extends Screen {
         arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_GREEN));
         arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_YELLOW));
         List<Node> nodes = new ArrayList<>();
-        nodes.add(new Node(context, NodeType.POSITIVE, 550, 650));
+        nodes.add(new Node(context, NodeType.POSITIVE, 1300, 850));
+        nodes.add(new Node(context, NodeType.POSITIVE, 1000, 1000));
+        nodes.add(new Node(context, NodeType.POSITIVE, 500, 650));
         lma = new LMA(context, arms, nodes, 1920 / 2f, 1080 / 2f);
 
         Instruction[][] queue = new Instruction[arms.size()][LMA.MAX_CYCLES];
@@ -64,7 +64,7 @@ public class PlayScreen extends Screen {
     public void render() {
         sb.begin();
         sb.setProjectionMatrix(cam.combined);
-        sb.setColor(BG_COLOR);
+        sb.setColor(Constants.TRIAL_BG);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
 
         sb.setColor(Color.WHITE);

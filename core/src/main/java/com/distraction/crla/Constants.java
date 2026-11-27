@@ -17,4 +17,11 @@ public class Constants {
     public static final Color ARM_YELLOW = Color.valueOf("F2BC68");
     public static final Color ARM_PURPLE = Color.valueOf("B39DDB");
 
+    public static final Color POSITIVE = Color.valueOf("55D9F3");
+    public static final Color NEGATIVE = Color.valueOf("C18AF5");
+    public static final Color RESONANCE = Color.valueOf("F2CF76");
+    public static final Color INACTIVE = Color.valueOf("9CAAB9");
+
+    public static final Color TRIAL_BG = Color.valueOf("202A36");
+
 }

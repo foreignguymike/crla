@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.distraction.crla.Constants;
 import com.distraction.crla.Context;
 import com.distraction.crla.utils.Utils;
 
@@ -72,13 +73,19 @@ public class LMA extends Entity {
     }
 
     public void render(SpriteBatch sb) {
-        renderNodes(sb);
+        int sample = MathUtils.clamp(
+            (int) (t * SAMPLES_PER_CYCLE),
+            0,
+            MAX_SAMPLES - 1
+        );
+        renderNodes(sb, sample);
         renderArms(sb);
     }
 
-    private void renderNodes(SpriteBatch sb) {
+    private void renderNodes(SpriteBatch sb, int sample) {
+        int resonance = solver.resonances[sample];
         for (Node node : nodes) {
-            node.render(sb);
+            node.render(sb, resonance);
         }
     }
 
@@ -114,7 +121,6 @@ public class LMA extends Entity {
             solver.jy[jb + armCount],
             alpha
         );
-        crystal.render(sb, x + cx, y + cy, 2, 0);
-        solver.log(t);
+        crystal.render(sb, x + cx, y + cy, solver.charges[a], solver.resonances[a]);
     }
 }
