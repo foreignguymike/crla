@@ -2,12 +2,11 @@ package com.distraction.crla.utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 
 public class Utils {
 
-    public static void drawRotatedArm(SpriteBatch sb, TextureRegion image, float x, float y, float deg) {
-        float w = image.getRegionWidth();
-        float h = image.getRegionHeight();
+    public static void drawRotatedArm(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h, float rad) {
 
         sb.draw(
             image,
@@ -17,7 +16,7 @@ public class Utils {
             h / 2,
             w, h,
             1, 1,
-            deg
+            rad * MathUtils.radDeg
         );
     }
 

@@ -1,7 +1,12 @@
 crla.png
-size:256,64
+size:1024,256
+filter:Linear,Linear
 repeat:none
-arm
-bounds:2,5,229,29
+arm100
+bounds:2,7,520,120
+arm100mask
+bounds:2,131,520,120
 pixel
 bounds:2,2,1,1
+root
+bounds:526,63,188,188

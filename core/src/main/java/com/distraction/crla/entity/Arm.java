@@ -1,41 +1,43 @@
 package com.distraction.crla.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.distraction.crla.Context;
 import com.distraction.crla.utils.Utils;
 
 public class Arm extends Entity {
 
     private final TextureRegion arm;
-    float deg;
-    float degCum;
-    private float degr;
+    private final TextureRegion mask;
+    private final Color color;
 
-    public Arm(Context context) {
-        arm = context.getImage("arm");
-        w = arm.getRegionWidth();
-        h = arm.getRegionHeight();
+    int deg;
 
-        degr = MathUtils.random() < 0.5f ? 40 : 40;
-    }
-
-    public float ex() {
-        return x + MathUtils.cos((deg + degCum) * MathUtils.degRad) * (w - h);
-    }
-
-    public float ey() {
-        return y + MathUtils.sin((deg + degCum) * MathUtils.degRad) * (w - h);
+    public Arm(Context context, ArmType type, Color color) {
+        if (type == ArmType.ARM100) {
+            arm = context.getImage(type.file);
+            mask = context.getImage(type.file + "mask");
+            this.color = color;
+            w = type.w;
+            h = type.h;
+        } else {
+            arm = context.getImage(type.file);
+            mask = context.getImage(type.file + "mask");
+            this.color = color;
+            w = type.w;
+            h = type.h;
+        }
     }
 
     @Override
     public void update(float dt) {
-        deg += degr * dt;
     }
 
-    @Override
-    public void render(SpriteBatch sb) {
-        Utils.drawRotatedArm(sb, arm, x, y, (deg + degCum));
+    public void render(SpriteBatch sb, float x, float y, float rad) {
+        sb.setColor(Color.WHITE);
+        Utils.drawRotatedArm(sb, arm, x, y, w, h, rad);
+        sb.setColor(color);
+        Utils.drawRotatedArm(sb, mask, x, y, w, h, rad);
     }
 }

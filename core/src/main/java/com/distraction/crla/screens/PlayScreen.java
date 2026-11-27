@@ -1,12 +1,12 @@
 package com.distraction.crla.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.crla.Constants;
 import com.distraction.crla.Context;
 import com.distraction.crla.entity.Arm;
-import com.distraction.crla.entity.Machine;
-import com.distraction.crla.utils.Utils;
+import com.distraction.crla.entity.ArmType;
+import com.distraction.crla.entity.Instruction;
+import com.distraction.crla.entity.LMA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class PlayScreen extends Screen {
 
     private final Color BG_COLOR = new Color(0.1f, 0.15f, 0.3f, 1f);
 
-    private final Machine machine;
+    private final LMA lma;
 
     public PlayScreen(Context context) {
         super(context);
@@ -26,14 +26,22 @@ public class PlayScreen extends Screen {
         out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f);
 
         List<Arm> arms = new ArrayList<>();
-        arms.add(new Arm(context));
-        arms.get(0).x = 600;
-        arms.get(0).y = 600;
-        arms.add(new Arm(context));
-        arms.add(new Arm(context));
-        arms.add(new Arm(context));
-        arms.add(new Arm(context));
-        machine = new Machine(context, arms);
+        arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_BLUE));
+        arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_GREEN));
+        arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_YELLOW));
+        lma = new LMA(context, arms, 1920 / 2, 1080 / 2);
+
+        Instruction[][] queue = new Instruction[arms.size()][LMA.MAX_CYCLES];
+        for (int arm = 0; arm < arms.size(); arm++) {
+            for (int cycle = 0; cycle < LMA.MAX_CYCLES; cycle++) {
+                queue[arm][cycle] = Instruction.IDLE;
+            }
+        }
+        queue[0][0] = Instruction.CCW90;
+//        queue[1][0] = Instruction.CW90;
+//        queue[2][0] = Instruction.CW90;
+        lma.calculate(queue);
+        lma.togglePlay();
     }
 
     @Override
@@ -46,7 +54,7 @@ public class PlayScreen extends Screen {
         in.update(dt);
         out.update(dt);
 
-        machine.update(dt);
+        lma.update(dt);
     }
 
     @Override
@@ -57,9 +65,7 @@ public class PlayScreen extends Screen {
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
 
         sb.setColor(Color.WHITE);
-        machine.render(sb);
-
-        sb.draw(pixel, 590, 590, 20, 20);
+        lma.render(sb);
 
         sb.setColor(Color.WHITE);
         sb.setProjectionMatrix(uiCam.combined);

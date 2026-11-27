@@ -1,5 +1,7 @@
 package com.distraction.crla;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Constants {
 
     private Constants() {}
@@ -9,5 +11,10 @@ public class Constants {
     public static final int HEIGHT = 1080;
 
     public static final boolean FULLSCREEN = false;
+
+    public static final Color ARM_BLUE = Color.valueOf("64B5F6");
+    public static final Color ARM_GREEN = Color.valueOf("56D6B0");
+    public static final Color ARM_YELLOW = Color.valueOf("F2BC68");
+    public static final Color ARM_PURPLE = Color.valueOf("B39DDB");
 
 }
