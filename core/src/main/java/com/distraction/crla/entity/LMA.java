@@ -21,21 +21,27 @@ public class LMA extends Entity {
     private final TextureRegion root;
 
     private final List<Arm> arms;
+    private final List<Node> nodes;
     private final Solver solver;
     private final float x;
     private final float y;
+
+    private final Crystal crystal;
 
     private int speed = 1;
     private float t;
     private boolean playing;
 
-    public LMA(Context context, List<Arm> arms, float x, float y) {
+    public LMA(Context context, List<Arm> arms, List<Node> nodes, float x, float y) {
         root = context.getImage("root");
 
         this.arms = arms;
+        this.nodes = nodes;
         this.x = x;
         this.y = y;
-        solver = new Solver(arms);
+        solver = new Solver(arms, nodes, x, y);
+
+        crystal = new Crystal(context);
     }
 
     public void calculate(Instruction[][] queue) {
@@ -55,7 +61,6 @@ public class LMA extends Entity {
         playing = false;
     }
 
-    @Override
     public void update(float dt) {
         if (playing) {
             t += dt * speed;
@@ -66,8 +71,18 @@ public class LMA extends Entity {
         }
     }
 
-    @Override
     public void render(SpriteBatch sb) {
+        renderNodes(sb);
+        renderArms(sb);
+    }
+
+    private void renderNodes(SpriteBatch sb) {
+        for (Node node : nodes) {
+            node.render(sb);
+        }
+    }
+
+    private void renderArms(SpriteBatch sb) {
         sb.setColor(Color.WHITE);
         Utils.drawCentered(sb, root, x, y, 100, 100);
         float sample = MathUtils.clamp(
@@ -77,17 +92,29 @@ public class LMA extends Entity {
         );
         int a = (int) sample;
         int b = Math.min(a + 1, MAX_SAMPLES - 1);
+        int ja = a * solver.jointCount;
+        int jb = b * solver.jointCount;
+        int ra = a * solver.armCount;
+        int rb = b * solver.armCount;
         float alpha = sample - a;
         int armCount = arms.size();
-        int offseta = a * armCount;
-        int offsetb = b * armCount;
         for (int i = 0; i < armCount; i++) {
-            int ia = offseta + i;
-            int ib = offsetb + i;
-            float jx = MathUtils.lerp(solver.jx[ia], solver.jx[ib], alpha);
-            float jy = MathUtils.lerp(solver.jy[ia], solver.jy[ib], alpha);
-            float rad = MathUtils.lerp(solver.rads[ia], solver.rads[ib], alpha);
+            float jx = MathUtils.lerp(solver.jx[ja + i], solver.jx[jb + i], alpha);
+            float jy = MathUtils.lerp(solver.jy[ja + i], solver.jy[jb + i], alpha);
+            float rad = MathUtils.lerp(solver.rads[ra + i], solver.rads[rb + i], alpha);
             arms.get(i).render(sb, x + jx, y + jy, rad);
         }
+        float cx = MathUtils.lerp(
+            solver.jx[ja + armCount],
+            solver.jx[jb + armCount],
+            alpha
+        );
+        float cy = MathUtils.lerp(
+            solver.jy[ja + armCount],
+            solver.jy[jb + armCount],
+            alpha
+        );
+        crystal.render(sb, x + cx, y + cy, 2, 0);
+        solver.log(t);
     }
 }

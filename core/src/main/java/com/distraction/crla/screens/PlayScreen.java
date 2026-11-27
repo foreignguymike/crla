@@ -7,6 +7,8 @@ import com.distraction.crla.entity.Arm;
 import com.distraction.crla.entity.ArmType;
 import com.distraction.crla.entity.Instruction;
 import com.distraction.crla.entity.LMA;
+import com.distraction.crla.entity.Node;
+import com.distraction.crla.entity.NodeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,9 @@ public class PlayScreen extends Screen {
         arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_BLUE));
         arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_GREEN));
         arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_YELLOW));
-        lma = new LMA(context, arms, 1920 / 2, 1080 / 2);
+        List<Node> nodes = new ArrayList<>();
+        nodes.add(new Node(context, NodeType.POSITIVE, 550, 650));
+        lma = new LMA(context, arms, nodes, 1920 / 2f, 1080 / 2f);
 
         Instruction[][] queue = new Instruction[arms.size()][LMA.MAX_CYCLES];
         for (int arm = 0; arm < arms.size(); arm++) {
@@ -38,8 +42,7 @@ public class PlayScreen extends Screen {
             }
         }
         queue[0][0] = Instruction.CCW90;
-//        queue[1][0] = Instruction.CW90;
-//        queue[2][0] = Instruction.CW90;
+        queue[0][1] = Instruction.CCW90;
         lma.calculate(queue);
         lma.togglePlay();
     }

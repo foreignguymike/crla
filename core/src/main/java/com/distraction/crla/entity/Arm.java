@@ -30,7 +30,6 @@ public class Arm extends Entity {
         }
     }
 
-    @Override
     public void update(float dt) {
     }
 
