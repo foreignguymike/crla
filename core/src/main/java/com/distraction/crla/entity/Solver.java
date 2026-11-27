@@ -30,6 +30,8 @@ public class Solver {
     private int resonance;
     private long previousOverlap;
 
+    int cycleCount;
+
     public Solver(List<Arm> arms, List<Node> nodes, float rootx, float rooty) {
         this.arms = arms;
         armCount = arms.size();
@@ -62,6 +64,7 @@ public class Solver {
         charge = 0;
         resonance = 0;
         previousOverlap = 0L;
+        cycleCount = queue[0].length;
 
         for (int i = 0; i < armCount; i++) {
             Arm arm = arms.get(i);
@@ -72,7 +75,7 @@ public class Solver {
         calculateSample(0, 0f);
 
         int sample = 0;
-        for (int cycle = 0; cycle < LMA.MAX_CYCLES; cycle++) {
+        for (int cycle = 0; cycle < cycleCount; cycle++) {
             for (int i = 0; i < armCount; i++) deltaDegs[i] = getDeltaDeg(queue[i][cycle]);
             for (int s = 1; s <= LMA.SAMPLES_PER_CYCLE; s++) {
                 float progress = 1f * s / LMA.SAMPLES_PER_CYCLE;

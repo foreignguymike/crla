@@ -35,9 +35,9 @@ public class TrialScreen extends Screen {
         nodes.add(new Node(context, NodeType.POSITIVE, 500, 650));
         lma = new LMA(context, arms, nodes, 1920 / 2f, 1080 / 2f);
 
-        Instruction[][] queue = new Instruction[arms.size()][LMA.MAX_CYCLES];
+        Instruction[][] queue = new Instruction[arms.size()][5];
         for (int arm = 0; arm < arms.size(); arm++) {
-            for (int cycle = 0; cycle < LMA.MAX_CYCLES; cycle++) {
+            for (int cycle = 0; cycle < queue[0].length; cycle++) {
                 queue[arm][cycle] = Instruction.IDLE;
             }
         }

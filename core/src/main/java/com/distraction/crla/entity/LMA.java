@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.distraction.crla.Constants;
 import com.distraction.crla.Context;
 import com.distraction.crla.utils.Utils;
 
@@ -65,8 +64,8 @@ public class LMA extends Entity {
     public void update(float dt) {
         if (playing) {
             t += dt * speed;
-            if (t > MAX_CYCLES) {
-                t = MAX_CYCLES;
+            if (t > solver.cycleCount) {
+                t = solver.cycleCount;
                 playing = false;
             }
         }
