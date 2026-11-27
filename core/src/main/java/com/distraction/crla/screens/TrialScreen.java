@@ -1,12 +1,14 @@
 package com.distraction.crla.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.crla.Constants;
 import com.distraction.crla.Context;
 import com.distraction.crla.entity.Arm;
 import com.distraction.crla.entity.ArmType;
 import com.distraction.crla.entity.Instruction;
 import com.distraction.crla.entity.LMA;
+import com.distraction.crla.entity.NinePatch;
 import com.distraction.crla.entity.Node;
 import com.distraction.crla.entity.NodeType;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class TrialScreen extends Screen {
 
     private final LMA lma;
+    private List<NinePatch> dialogs;
 
     public TrialScreen(Context context) {
         super(context);
@@ -45,6 +48,16 @@ public class TrialScreen extends Screen {
         queue[0][1] = Instruction.CCW90;
         lma.calculate(queue);
         lma.togglePlay();
+
+        dialogs = new ArrayList<>();
+        TextureRegion corner = context.getImage("dialogcorner");
+        TextureRegion side = context.getImage("dialogside");
+        dialogs.add(new NinePatch(corner, side, pixel, Constants.DIALOG_BORDER, Constants.DIALOG_FILL, Constants.WIDTH / 2f, Constants.HEIGHT - 30, 2000, 100));
+        dialogs.add(new NinePatch(corner, side, pixel, Constants.DIALOG_BORDER, Constants.DIALOG_FILL, 725, 670, 1400, 600));
+        dialogs.add(new NinePatch(corner, side, pixel, Constants.DIALOG_BORDER, Constants.DIALOG_FILL, 725, 305, 1400, 70));
+        dialogs.add(new NinePatch(corner, side, pixel, Constants.DIALOG_BORDER, Constants.DIALOG_FILL, 725, 130, 1400, 220));
+        dialogs.add(new NinePatch(corner, side, pixel, Constants.DIALOG_BORDER, Constants.DIALOG_FILL, 1677, 620, 445, 700));
+        dialogs.add(new NinePatch(corner, side, pixel, Constants.DIALOG_BORDER, Constants.DIALOG_FILL, 1677, 130, 445, 220));
     }
 
     @Override
@@ -63,9 +76,7 @@ public class TrialScreen extends Screen {
     @Override
     public void render() {
         sb.begin();
-        sb.setProjectionMatrix(cam.combined);
-        sb.setColor(Constants.TRIAL_BG);
-        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
+        renderUi();
 
         sb.setColor(Color.WHITE);
         lma.render(sb);
@@ -75,6 +86,17 @@ public class TrialScreen extends Screen {
         in.render(sb);
         out.render(sb);
         sb.end();
+    }
+
+    private void renderUi() {
+        sb.setProjectionMatrix(uiCam.combined);
+        sb.setColor(Constants.TRIAL_BG);
+        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
+
+        sb.setColor(Constants.DIALOG_BORDER);
+        for (NinePatch dialog : dialogs) {
+            dialog.render(sb);
+        }
     }
 
 }

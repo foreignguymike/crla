@@ -22,6 +22,16 @@ public class Constants {
     public static final Color RESONANCE = Color.valueOf("F2CF76");
     public static final Color INACTIVE = Color.valueOf("9CAAB9");
 
-    public static final Color TRIAL_BG = Color.valueOf("202A36");
+    public static final Color UI1 = Color.valueOf("0C121C");
+    public static final Color UI2 = Color.valueOf("131E2B");
+    public static final Color UI3 = Color.valueOf("1D2C3C");
+    public static final Color UI4 = Color.valueOf("30465A");
+    public static final Color UI5 = Color.valueOf("71889E");
+    public static final Color UI6 = Color.valueOf("DCE7F2");
+
+    public static final Color TRIAL_BG = UI1;
+    public static final Color DIALOG_BORDER = UI3;
+    public static final Color DIALOG_FILL = UI2;
+
 
 }

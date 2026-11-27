@@ -14,6 +14,10 @@ crystal
 bounds:1318,81,170,170
 crystalglow
 bounds:1492,103,148,148
+dialogcorner
+bounds:1318,68,9,9
+dialogside
+bounds:1492,90,1,9
 minus
 bounds:526,11,36,36
 node
