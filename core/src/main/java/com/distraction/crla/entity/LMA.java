@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.distraction.crla.Context;
 import com.distraction.crla.utils.Utils;
 
@@ -101,7 +102,7 @@ public class LMA extends Entity {
         float sample = MathUtils.clamp(
             t * SAMPLES_PER_CYCLE,
             0,
-            MAX_SAMPLES - 1
+            MAX_SAMPLES
         );
         int a = (int) sample;
         int b = Math.min(a + 1, MAX_SAMPLES - 1);
@@ -115,7 +116,10 @@ public class LMA extends Entity {
             float jx = MathUtils.lerp(solver.jx[ja + i], solver.jx[jb + i], alpha);
             float jy = MathUtils.lerp(solver.jy[ja + i], solver.jy[jb + i], alpha);
             float rad = MathUtils.lerp(solver.rads[ra + i], solver.rads[rb + i], alpha);
-            arms.get(i).render(sb, x + jx, y + jy, rad);
+            float njx = MathUtils.lerp(solver.jx[ja + i + 1], solver.jx[jb + i + 1], alpha);
+            float njy = MathUtils.lerp(solver.jy[ja + i + 1], solver.jy[jb + i + 1], alpha);
+            float len = Vector2.dst(jx, jy, njx, njy);
+            arms.get(i).render(sb, x + jx, y + jy, rad, len);
         }
         float cx = MathUtils.lerp(
             solver.jx[ja + armCount],

@@ -34,11 +34,11 @@ public class Arm extends Entity {
     public void update(float dt) {
     }
 
-    public void render(SpriteBatch sb, float x, float y, float rad) {
+    public void render(SpriteBatch sb, float x, float y, float rad, float length) {
         sb.setColor(Color.WHITE);
-        Utils.drawRotatedArm(sb, armBar, x, y, w, h, rad);
+        Utils.drawRotatedArm(sb, armBar, x, y, length, h, rad);
         sb.setColor(color);
-        Utils.drawRotatedArm(sb, armBarMask, x, y, w, h, rad);
+        Utils.drawRotatedArm(sb, armBarMask, x, y, length, h, rad);
         sb.setColor(1, 1, 1, 1);
         Utils.drawCentered(sb, armJoint, x, y, h, h);
     }
