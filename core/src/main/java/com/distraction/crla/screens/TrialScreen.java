@@ -50,9 +50,9 @@ public class TrialScreen extends Screen {
         out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f);
 
         List<Arm> arms = new ArrayList<>();
-        arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_BLUE));
-        arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_GREEN));
-        arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_YELLOW));
+        arms.add(new Arm(context, ArmType.ARM200, Constants.ARM_BLUE));
+        arms.add(new Arm(context, ArmType.ARM300, Constants.ARM_GREEN));
+        arms.add(new Arm(context, ArmType.ARM200, Constants.ARM_YELLOW));
         nodes = new ArrayList<>();
         nodes.add(new Node(context, NodeType.POSITIVE, 1300, 850));
         nodes.add(new Node(context, NodeType.RES1, 1000, 1000));
@@ -65,6 +65,8 @@ public class TrialScreen extends Screen {
                 queue[arm][cycle] = Instruction.IDLE;
             }
         }
+        queue[2][0] = Instruction.CW90;
+        queue[1][0] = Instruction.CW90;
         lma.calculate(queue);
         lma.togglePlay();
 
@@ -154,7 +156,6 @@ public class TrialScreen extends Screen {
     }
 
     private void zoomCamera(float mx, float my, float amount) {
-        System.out.println(mx + ", " + my + ", " + amount);
         if (!fieldBounds.contains(mx, my)) return;
         float oldZoom = cam.zoom;
         float newZoom = MathUtils.clamp(

@@ -8,23 +8,24 @@ import com.distraction.crla.utils.Utils;
 
 public class Arm extends Entity {
 
-    private final TextureRegion arm;
-    private final TextureRegion mask;
+    private final TextureRegion armBar;
+    private final TextureRegion armBarMask;
+    private final TextureRegion armJoint;
+    private final TextureRegion armJointMask;
     private final Color color;
 
     int deg;
 
     public Arm(Context context, ArmType type, Color color) {
-        if (type == ArmType.ARM100) {
-            arm = context.getImage(type.file);
-            mask = context.getImage(type.file + "mask");
-            this.color = color;
+        armBar = context.getImage("armbar");
+        armBarMask = context.getImage("armbarmask");
+        armJoint = context.getImage("armjoint");
+        armJointMask = context.getImage("armjointmask");
+        this.color = color;
+        if (type == ArmType.ARM200) {
             w = type.w;
             h = type.h;
         } else {
-            arm = context.getImage(type.file);
-            mask = context.getImage(type.file + "mask");
-            this.color = color;
             w = type.w;
             h = type.h;
         }
@@ -35,8 +36,10 @@ public class Arm extends Entity {
 
     public void render(SpriteBatch sb, float x, float y, float rad) {
         sb.setColor(Color.WHITE);
-        Utils.drawRotatedArm(sb, arm, x, y, w, h, rad);
+        Utils.drawRotatedArm(sb, armBar, x, y, w, h, rad);
         sb.setColor(color);
-        Utils.drawRotatedArm(sb, mask, x, y, w, h, rad);
+        Utils.drawRotatedArm(sb, armBarMask, x, y, w, h, rad);
+        sb.setColor(1, 1, 1, 1);
+        Utils.drawCentered(sb, armJoint, x, y, h, h);
     }
 }

@@ -69,7 +69,7 @@ public class Solver {
         for (int i = 0; i < armCount; i++) {
             Arm arm = arms.get(i);
             startDegs[i] = arm.deg;
-            lengths[i] = arm.w - arm.h;
+            lengths[i] = arm.w;
         }
 
         calculateSample(0, 0f);

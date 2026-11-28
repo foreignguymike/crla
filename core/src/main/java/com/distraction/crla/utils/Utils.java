@@ -7,12 +7,11 @@ import com.badlogic.gdx.math.MathUtils;
 public class Utils {
 
     public static void drawRotatedArm(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h, float rad) {
-
         sb.draw(
             image,
-            x - h / 2,
+            x,
             y - h / 2,
-            h / 2,
+            0,
             h / 2,
             w, h,
             1, 1,
