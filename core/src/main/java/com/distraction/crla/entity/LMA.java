@@ -17,6 +17,7 @@ public class LMA extends Entity {
     public static final int MAX_CYCLES = 10;
     public static final int SAMPLES_PER_CYCLE = 180;
     public static final int MAX_SAMPLES = MAX_CYCLES * SAMPLES_PER_CYCLE;
+    public static final int MAX_ARMS = 4;
 
     private final TextureRegion root;
 
@@ -44,7 +45,7 @@ public class LMA extends Entity {
         crystal = new Crystal(context);
     }
 
-    public float reach() {
+    public float getReach() {
         float sum = 0;
         for (Arm arm : arms) sum += arm.w;
         return sum;

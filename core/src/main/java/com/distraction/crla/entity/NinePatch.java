@@ -10,7 +10,7 @@ public class NinePatch extends Entity {
 
     private final TextureRegion corner;
     private final TextureRegion side;
-    private final TextureRegion fill;
+    private TextureRegion fill;
     private Color borderColor;
     private Color fillColor;
 
@@ -32,6 +32,10 @@ public class NinePatch extends Entity {
         this.h = h;
     }
 
+    public void setFill(TextureRegion fill) {
+        this.fill = fill;
+    }
+
     public void setBorderColor(Color c) {
         this.borderColor = c;
     }
@@ -41,6 +45,27 @@ public class NinePatch extends Entity {
     }
 
     public void render(SpriteBatch sb) {
+        float w = this.w * scale;
+        float h = this.h * scale;
+        float right = w / 2f + corner.getRegionWidth() / 2f;
+        float up = h / 2f + corner.getRegionHeight() / 2f;
+
+        sb.setColor(fillColor);
+        Utils.drawCentered(sb, fill, x, y, w + corner.getRegionWidth() * 1.414f, h + corner.getRegionHeight() * 1.414f);
+
+        sb.setColor(borderColor);
+        Utils.drawCenteredRotated(sb, corner, x - right, y + up, 0); // tl
+        Utils.drawCenteredRotated(sb, corner, x - right, y - up, 90); // bl
+        Utils.drawCenteredRotated(sb, corner, x + right, y - up, 180); // br
+        Utils.drawCenteredRotated(sb, corner, x + right, y + up, -90); // tr
+
+        Utils.drawCenteredRotated(sb, side, x, y + up, w, side.getRegionHeight(), 0); // up
+        Utils.drawCenteredRotated(sb, side, x, y - up, w, side.getRegionHeight(), 180); // down
+        Utils.drawCenteredRotated(sb, side, x - right, y, h, side.getRegionHeight(), 90);   // left
+        Utils.drawCenteredRotated(sb, side, x + right, y, h, side.getRegionHeight(), -90);  // right
+    }
+
+    public void render(SpriteBatch sb, float x, float y) {
         float w = this.w * scale;
         float h = this.h * scale;
         float right = w / 2f + corner.getRegionWidth() / 2f;

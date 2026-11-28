@@ -17,6 +17,7 @@ import com.distraction.crla.entity.LMA;
 import com.distraction.crla.entity.Node;
 import com.distraction.crla.entity.NodeType;
 import com.distraction.crla.entity.pane.InstructionPane;
+import com.distraction.crla.entity.pane.LMAPane;
 import com.distraction.crla.entity.pane.Pane;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class TrialScreen extends Screen {
     private final Rectangle scissors = new Rectangle();
 
     private final LMA lma;
-    private List<Pane> panes;
+    private final List<Pane> panes;
 
     private final List<Node> nodes;
 
@@ -54,7 +55,7 @@ public class TrialScreen extends Screen {
         arms.add(new Arm(context, ArmType.ARM100, Constants.ARM_YELLOW));
         nodes = new ArrayList<>();
         nodes.add(new Node(context, NodeType.POSITIVE, 1300, 850));
-        nodes.add(new Node(context, NodeType.POSITIVE, 1000, 1000));
+        nodes.add(new Node(context, NodeType.RES1, 1000, 1000));
         nodes.add(new Node(context, NodeType.POSITIVE, 500, 650));
         lma = new LMA(context, arms, nodes, 1920 / 2f, 1080 / 2f);
 
@@ -64,33 +65,25 @@ public class TrialScreen extends Screen {
                 queue[arm][cycle] = Instruction.IDLE;
             }
         }
-//        queue[0][0] = Instruction.CW90;
-//        queue[0][1] = Instruction.CCW90;
         lma.calculate(queue);
         lma.togglePlay();
 
         panes = new ArrayList<>();
-        Pane lmaPane = new Pane(context, 20, 370, 1400, 600);
+        LMAPane lmaPane = new LMAPane(context, 20, 370, 1400, 600);
         panes.add(new Pane(context, -10, Constants.HEIGHT - 80, 2000, 100));
         panes.add(lmaPane);
 //        panes.add(new Pane(context, 20, 270, 1400, 70));
-        panes.add(new InstructionPane(context, queue, 20, 20, 1400, 320));
+        panes.add(new InstructionPane(context, queue, 20, 20, 1400, 320, arms.size()));
         panes.add(new Pane(context, 1450, 270, 450, 700));
         panes.add(new Pane(context, 1450, 20, 450, 220));
 
-        Pane almPane = panes.get(1);
-        fieldBounds.set(almPane.x - 6, almPane.y - 6, almPane.w + 12, almPane.h + 12);
+        fieldBounds.set(lmaPane.x - 6, lmaPane.y - 6, lmaPane.w + 12, lmaPane.h + 12);
 
         float cx = lmaPane.x + lmaPane.w / 2f;
         float cy = lmaPane.y + lmaPane.h / 2f;
-        cam.position.set(
-            Constants.WIDTH - cx,
-            Constants.HEIGHT - cy,
-            0
-        );
-        cam.update();
-
-        calculatePanBounds(cx, cy, lma.reach());
+        resetCamera();
+        calculatePanBounds(cx, cy, lma.getReach());
+//        zoomCamera(fieldBounds.x + fieldBounds.width / 2f, fieldBounds.y + fieldBounds.height / 2f, 3f);
 
         // for scroll
         Gdx.input.setInputProcessor(
@@ -161,6 +154,7 @@ public class TrialScreen extends Screen {
     }
 
     private void zoomCamera(float mx, float my, float amount) {
+        System.out.println(mx + ", " + my + ", " + amount);
         if (!fieldBounds.contains(mx, my)) return;
         float oldZoom = cam.zoom;
         float newZoom = MathUtils.clamp(
