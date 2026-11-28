@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Constants {
 
-    private Constants() {}
+    private Constants() {
+    }
 
     public static final String TITLE = "Critical Lattice";
     public static final int WIDTH = 1920;
@@ -16,6 +17,9 @@ public class Constants {
     public static final Color ARM_GREEN = Color.valueOf("56D6B0");
     public static final Color ARM_YELLOW = Color.valueOf("F2BC68");
     public static final Color ARM_PURPLE = Color.valueOf("B39DDB");
+    public static final Color[] ARM_COLORS = new Color[]{
+        ARM_BLUE, ARM_GREEN, ARM_YELLOW, ARM_PURPLE
+    };
 
     public static final Color POSITIVE = Color.valueOf("55D9F3");
     public static final Color NEGATIVE = Color.valueOf("C18AF5");
@@ -33,5 +37,15 @@ public class Constants {
     public static final Color DIALOG_BORDER = UI3;
     public static final Color DIALOG_FILL = UI2;
 
+    public static final Color[] DEFAULT_BORDER_COLORS = new Color[]{
+        Constants.UI4,
+        Constants.UI5,
+        Constants.UI6
+    };
+    public static final Color[] DEFAULT_FILL_COLORS = new Color[]{
+        Constants.UI1,
+        Constants.UI4,
+        Constants.UI4
+    };
 
 }

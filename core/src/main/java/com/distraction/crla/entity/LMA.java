@@ -44,6 +44,12 @@ public class LMA extends Entity {
         crystal = new Crystal(context);
     }
 
+    public float reach() {
+        float sum = 0;
+        for (Arm arm : arms) sum += arm.w;
+        return sum;
+    }
+
     public void calculate(Instruction[][] queue) {
         solver.calculate(queue);
     }

@@ -65,4 +65,9 @@ public class Utils {
         );
     }
 
+    public static <T extends Enum<T>> T next(T current) {
+        T[] values = current.getDeclaringClass().getEnumConstants();
+        return values[(current.ordinal() + 1) % values.length];
+    }
+
 }
